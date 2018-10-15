@@ -11,7 +11,7 @@ const path         = require('path');
 
 
 mongoose
-  .connect('mongodb://localhost/cheap-fuel-app-back', {useNewUrlParser: true})
+  .connect(process.env.DB,{useCreateIndex: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -39,6 +39,11 @@ app.use(require('node-sass-middleware')({
 }));
       
 
+//passport
+const passport = require('./helpers/passport')
+app.use(passport.initialize())
+app.use(passport.session())
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
@@ -52,7 +57,11 @@ app.locals.title = 'Express - Generated with IronGenerator';
 
 
 const index = require('./routes/index');
-app.use('/', index);
+const auth = require('./routes/auth')
+const nearby = require('./routes/near')
 
+app.use('/', index);
+app.use('/',auth)
+app.use('/nearby', nearby)
 
 module.exports = app;
