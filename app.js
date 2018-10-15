@@ -11,7 +11,7 @@ const path         = require('path');
 
 
 mongoose
-  .connect(process.env.DB, {useNewUrlParser: true})
+  .connect(process.env.DB,{useCreateIndex: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -58,9 +58,10 @@ app.locals.title = 'Express - Generated with IronGenerator';
 
 const index = require('./routes/index');
 const auth = require('./routes/auth')
-
+const nearby = require('./routes/near')
 
 app.use('/', index);
 app.use('/',auth)
+app.use('/nearby', nearby)
 
 module.exports = app;
