@@ -61,7 +61,7 @@ const auth = require('./routes/auth')
 const nearby = require('./routes/near')
 
 app.use('/', index);
-app.use('/',auth)
+app.use('/auth',auth)
 app.use('/nearby', nearby)
 
 module.exports = app;
