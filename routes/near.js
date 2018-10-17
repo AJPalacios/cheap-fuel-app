@@ -7,10 +7,13 @@ router.get('/stations/', (req,res)=>{
   let longitude = req.query
   console.log(longitude)
 
-  let query = {geometry:{$geoWithin:{$centerSphere:[[req.query.longitude, req.query.latitude],5 / 6378.1]}}}
+  let query = {geometry:{$geoWithin:{$centerSphere:[[req.query.longitude, req.query.latitude],5/3959]}}}
 
-  gasPoint.find(query)
-  .then(data=>res.status(200).json(data))
+  gasPoint.find(query).sort({gas_price_regular:1}).limit(1)
+  .then(data=>{
+    res.status(200).json(data)
+    console.log(data)
+  })
   .catch(err=>{
     console.log(err)
   })
