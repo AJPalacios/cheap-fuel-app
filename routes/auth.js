@@ -5,8 +5,8 @@ const passport = require('passport')
 const {generateToken, verifyToken} = require('../helpers/jwt')
 
 router.post('/login', passport.authenticate('local') ,(req,res,next)=>{
-  const token = generateToken(req.email)
-  res.status(200).json({token, user:req.email})
+  const token = generateToken(req.user)
+  res.status(200).json({token, user:req.user})
 })
 
 router.post('/signup', (req,res,next)=>{
